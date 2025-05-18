@@ -14,4 +14,4 @@ RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
 
 # Run the application (replace JAR name below)
-CMD ["java", "-jar", "target/expense-manager-api-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/expense-manager-0.0.1-SNAPSHOT.jar"]

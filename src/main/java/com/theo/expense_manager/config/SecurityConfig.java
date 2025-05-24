@@ -44,7 +44,7 @@ public class SecurityConfig {
                                 "/api/auth/signup",
                                 "/api/auth/login",
                                 "/error",
-
+                                "/api/ping",
                                 // ✅ Swagger & OpenAPI endpoints
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",

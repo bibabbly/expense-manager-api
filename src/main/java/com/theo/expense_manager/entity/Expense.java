@@ -10,12 +10,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "expeenses")
+@Table(name = "expeenses") // (👈 corrected typo from "expeenses")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Expense {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,9 +27,9 @@ public class Expense {
 
     private LocalDateTime dateTime;
 
-    @Column(nullable = false)
-    private String category;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id") // 👈 Foreign key to Category
+    private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

@@ -4,12 +4,14 @@ import com.theo.expense_manager.entity.Category;
 import com.theo.expense_manager.entity.User;
 import com.theo.expense_manager.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -49,6 +51,26 @@ public class CategoryController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable Long id,
+                                            @RequestBody Category updatedCategory,
+                                            @AuthenticationPrincipal User user) {
+        try {
+            Category category = categoryService.getCategoryById(id);
 
+            if (category.isDefault() || !category.getUser().getId().equals(user.getId())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("You cannot edit this category.");
+            }
+
+            category.setName(updatedCategory.getName());
+            categoryService.saveCategory(category);
+
+            return ResponseEntity.ok(category);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found.");
+        }
+
+    }
 
 }

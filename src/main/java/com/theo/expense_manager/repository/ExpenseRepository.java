@@ -12,5 +12,7 @@ public interface ExpenseRepository extends JpaRepository<Expense,Long> {
 
     List<Expense> findByUser(User user);
     Page<Expense> findByUser(User user, Pageable pageable);
+    List<Expense> findByUserUsername(String username);
+
 
 }

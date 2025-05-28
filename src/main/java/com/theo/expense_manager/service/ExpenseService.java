@@ -13,4 +13,6 @@ public interface ExpenseService {
     Expense getExpenseById(Long id);
     Expense updateExpense(Long id, Expense expense);
     boolean deleteExpense(Long id);
+    List<Expense> getAllExpensesByUser(String username);
+
 }

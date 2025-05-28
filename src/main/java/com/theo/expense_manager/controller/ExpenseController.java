@@ -29,21 +29,6 @@ public class ExpenseController {
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
     }
 
-    // Get all expenses for the authenticated user
-
-//    @GetMapping(value = { "", "/" })
-//    public ResponseEntity<List<Expense>> getAllExpenses(Authentication authentication) {
-//        if (authentication == null) {
-//            System.out.println("🚨 No authentication found!");
-//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        User user = (User) authentication.getPrincipal();
-//        System.out.println("👤 Authenticated user: " + user.getUsername());
-//
-//        List<Expense> expenses = expenseService.getAllExpensesByUser(user.getUsername());
-//        return new ResponseEntity<>(expenses, HttpStatus.OK);
-//    }
 
     // ✅ Paginated GET endpoint
     @GetMapping
@@ -54,6 +39,13 @@ public class ExpenseController {
         Page<Expense> expenses = expenseService.getExpensesByUser(user, pageable);
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Expense>> getAllExpensesForCharts(@AuthenticationPrincipal User user) {
+        List<Expense> allExpenses = expenseService.getAllExpensesByUser(user.getUsername());
+        return new ResponseEntity<>(allExpenses, HttpStatus.OK);
+    }
+
 
 
 

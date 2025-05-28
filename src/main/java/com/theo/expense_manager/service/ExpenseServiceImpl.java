@@ -56,4 +56,11 @@ public class ExpenseServiceImpl implements  ExpenseService{
         }
     }
 
+    @Override
+    public List<Expense> getAllExpensesByUser(String username) {
+        return expenseRepository.findByUserUsername(username);
+    }
+
+
+
 }

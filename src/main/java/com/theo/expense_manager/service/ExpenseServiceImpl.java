@@ -1,8 +1,11 @@
 package com.theo.expense_manager.service;
 
 import com.theo.expense_manager.entity.Expense;
+import com.theo.expense_manager.entity.User;
 import com.theo.expense_manager.repository.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +24,10 @@ public class ExpenseServiceImpl implements  ExpenseService{
     }
 
     @Override
-    public List<Expense> getAllExpensesByUser(String username) {
-        return expenseRepository.findByUserUsername(username);
+    public Page<Expense> getExpensesByUser(User user, Pageable pageable) {
+        return expenseRepository.findByUser(user, pageable);
     }
+
 
     @Override
     public Expense getExpenseById(Long id) {

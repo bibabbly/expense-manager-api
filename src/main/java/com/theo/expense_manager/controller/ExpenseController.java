@@ -4,6 +4,8 @@ import com.theo.expense_manager.entity.Expense;
 import com.theo.expense_manager.entity.User;
 import com.theo.expense_manager.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,17 +31,27 @@ public class ExpenseController {
 
     // Get all expenses for the authenticated user
 
-    @GetMapping(value = { "", "/" })
-    public ResponseEntity<List<Expense>> getAllExpenses(Authentication authentication) {
-        if (authentication == null) {
-            System.out.println("🚨 No authentication found!");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
+//    @GetMapping(value = { "", "/" })
+//    public ResponseEntity<List<Expense>> getAllExpenses(Authentication authentication) {
+//        if (authentication == null) {
+//            System.out.println("🚨 No authentication found!");
+//            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        User user = (User) authentication.getPrincipal();
+//        System.out.println("👤 Authenticated user: " + user.getUsername());
+//
+//        List<Expense> expenses = expenseService.getAllExpensesByUser(user.getUsername());
+//        return new ResponseEntity<>(expenses, HttpStatus.OK);
+//    }
 
-        User user = (User) authentication.getPrincipal();
-        System.out.println("👤 Authenticated user: " + user.getUsername());
-
-        List<Expense> expenses = expenseService.getAllExpensesByUser(user.getUsername());
+    // ✅ Paginated GET endpoint
+    @GetMapping
+    public ResponseEntity<Page<Expense>> getAllExpenses(
+            @AuthenticationPrincipal User user,
+            Pageable pageable
+    ) {
+        Page<Expense> expenses = expenseService.getExpensesByUser(user, pageable);
         return new ResponseEntity<>(expenses, HttpStatus.OK);
     }
 
